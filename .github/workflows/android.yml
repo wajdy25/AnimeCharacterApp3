@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK with Gradle Wrapper 8.4
 
 on:
   push:
@@ -14,10 +14,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Remove old Gradle Wrapper
+        run: rm -rf gradle/wrapper
+
+      - name: Create gradle/wrapper directory if missing
+        run: mkdir -p gradle/wrapper
+
+      - name: Generate Gradle Wrapper version 8.4
+        run: ./gradlew wrapper --gradle-version 8.4
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build Debug APK with Stacktrace
+      - name: Build Debug APK with stacktrace
         run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK artifact
