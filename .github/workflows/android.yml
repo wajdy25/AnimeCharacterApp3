@@ -14,6 +14,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Remove old Gradle Wrapper
         run: rm -rf gradle/wrapper
 
@@ -22,9 +25,6 @@ jobs:
 
       - name: Generate Gradle Wrapper version 8.4
         run: ./gradlew wrapper --gradle-version 8.4
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
 
       - name: Build Debug APK with stacktrace
         run: ./gradlew assembleDebug --stacktrace
