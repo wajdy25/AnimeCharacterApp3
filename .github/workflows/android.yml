@@ -20,13 +20,23 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Prepare gradle wrapper folder and download files
-        run: |
-          rm -rf gradle/wrapper
-          mkdir -p gradle/wrapper
-          curl -L -o gradle.zip https://services.gradle.org/distributions/gradle-8.0-bin.zip
-          unzip -j gradle.zip '*gradle-wrapper.jar' '*gradle-wrapper.properties' -d gradle/wrapper
-          rm gradle.zip
+      - name: Clean gradle wrapper folder
+        run: rm -rf gradle/wrapper
+
+      - name: Create gradle wrapper folder
+        run: mkdir -p gradle/wrapper
+
+      - name: Download Gradle distribution zip
+        run: curl -L -o gradle.zip https://services.gradle.org/distributions/gradle-8.0-bin.zip
+
+      - name: List contents of gradle.zip
+        run: unzip -l gradle.zip
+
+      - name: Extract gradle wrapper files
+        run: unzip -j gradle.zip gradle-8.0/gradle/wrapper/gradle-wrapper.jar gradle-8.0/gradle/wrapper/gradle-wrapper.properties -d gradle/wrapper
+
+      - name: Remove gradle.zip
+        run: rm gradle.zip
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
