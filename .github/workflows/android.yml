@@ -17,15 +17,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Remove old Gradle Wrapper
-        run: rm -rf gradle/wrapper
-
-      - name: Create gradle/wrapper directory if missing
-        run: mkdir -p gradle/wrapper
-
-      - name: Generate Gradle Wrapper version 8.4
-        run: ./gradlew wrapper --gradle-version 8.4
-
       - name: Build Debug APK with stacktrace
         run: ./gradlew assembleDebug --stacktrace
 
