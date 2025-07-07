@@ -8,35 +8,33 @@ on:
 
 jobs:
   build:
-    name: Build Debug APK with Stacktrace
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: 17
 
-      - name: Ensure Gradle Wrapper JAR is present
+      - name: Ensure gradle-wrapper.jar exists
         run: |
           mkdir -p gradle/wrapper
           if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
             echo "Downloading gradle-wrapper.jar..."
-            curl -L -o gradle-wrapper.zip https://services.gradle.org/distributions/gradle-8.0-bin.zip
-            unzip -j gradle-wrapper.zip gradle/wrapper/gradle-wrapper.jar -d gradle/wrapper
+            curl -L -o gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/v8.0/gradle/wrapper/gradle-wrapper.jar
           fi
 
-      - name: Grant Permission to Gradle Wrapper
+      - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build Debug APK with Stacktrace
+      - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
 
-      - name: Upload APK Artifact
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: AnimeCharacter-Debug-APK
