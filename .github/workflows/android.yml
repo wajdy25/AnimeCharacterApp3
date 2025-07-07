@@ -33,7 +33,9 @@ jobs:
         run: unzip -l gradle.zip
 
       - name: Extract gradle wrapper files
-        run: unzip -j gradle.zip gradle-8.0/gradle/wrapper/gradle-wrapper.jar gradle-8.0/gradle/wrapper/gradle-wrapper.properties -d gradle/wrapper
+        run: |
+          unzip -j gradle.zip gradle-8.0/gradle/wrapper/gradle-wrapper.jar gradle-8.0/gradle/wrapper/gradle-wrapper.properties -d gradle/wrapper || \
+          unzip -j gradle.zip gradle-8.0/lib/gradle-wrapper.jar gradle-8.0/lib/gradle-wrapper.properties -d gradle/wrapper
 
       - name: Remove gradle.zip
         run: rm gradle.zip
